@@ -35,17 +35,17 @@
 
     .buttons {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       gap: 15px;
-      position: relative;
       margin-top: 15px;
     }
 
     button {
-      padding: 10px 25px;
+      flex: 1;
+      padding: 15px;
+      font-size: 18px;
       border: none;
       border-radius: 15px;
-      font-size: 18px;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -53,11 +53,6 @@
     .yes {
       background: #ff99c8;
       color: white;
-      z-index: 3;
-    }
-
-    .yes:hover {
-      transform: scale(1.1) rotate(-3deg);
     }
 
     .no {
@@ -85,36 +80,15 @@
       display: none;
     }
 
-    /* Fullscreen overlay for jump scare iframe */
-    #jumpScareIframe {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9999;
-      display: none;
-      background: black;
-    }
-
-    #jumpScareIframe iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Mobile responsiveness */
     @media (max-width: 600px) {
       .question-box {
         max-width: 90%;
         padding: 1.5rem;
       }
-
       button {
-        font-size: 22px;
-        padding: 15px 20px;
+        font-size: 20px;
+        padding: 12px;
       }
-
       .sticker {
         width: 60px;
       }
@@ -122,6 +96,7 @@
   </style>
 </head>
 <body>
+
   <!-- First question -->
   <div class="question-box" id="box1">
     <h1>Hiii my princess, how are you? 🦒💛</h1>
@@ -135,19 +110,18 @@
   <div class="question-box hidden" id="box2">
     <h2>How much do you love me? 💕</h2>
     <div class="buttons">
-      <button class="answer">10/10 🌟</button>
-      <button class="answer">5/10 🤔</button>
-      <button class="answer monkey">Ahmed is a monkey 🐒</button>
+      <button class="answer" id="ten">10/10 🌟</button>
+      <button class="answer" id="five">5/10 🤔</button>
+      <button class="answer monkey" id="monkey">Marghie is a monkey 🐒</button>
     </div>
   </div>
 
-  <!-- Jump scare iframe -->
-  <div id="jumpScareIframe">
-    <div style="position:relative; width:100%; height:0px; padding-bottom:56.604%;">
-      <iframe allow="fullscreen" allowfullscreen 
-        src="https://streamable.com/e/7tntgq?loop=0" 
-        style="position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden;">
-      </iframe>
+  <!-- Third question -->
+  <div class="question-box hidden" id="box3">
+    <h2>Now let's play a game!! 🎮</h2>
+    <div class="buttons">
+      <button class="answer">Yes I want</button>
+      <button class="answer">Sì voglio</button>
     </div>
   </div>
 
@@ -162,8 +136,11 @@
     const yesBtn = document.querySelector('.yes');
     const box1 = document.getElementById('box1');
     const box2 = document.getElementById('box2');
-    const monkeyBtn = document.querySelector('.monkey');
-    const jumpScareIframe = document.getElementById('jumpScareIframe');
+    const box3 = document.getElementById('box3');
+
+    const tenBtn = document.getElementById('ten');
+    const fiveBtn = document.getElementById('five');
+    const monkeyBtn = document.getElementById('monkey');
 
     // No button moves only on click
     noBtn.addEventListener('click', () => {
@@ -177,15 +154,33 @@
       noBtn.style.top = `${y}px`;
     });
 
-    // Show second question after clicking Yes
+    // Show second question
     yesBtn.addEventListener('click', () => {
       box1.classList.add('hidden');
       box2.classList.remove('hidden');
     });
 
-    // Show jump scare iframe fullscreen
+    // 5/10 or 10/10 swap and disable
+    function disableAndSwap() {
+      [tenBtn, fiveBtn].forEach(btn => btn.disabled = true);
+      const tenText = tenBtn.textContent;
+      const fiveText = fiveBtn.textContent;
+      tenBtn.textContent = fiveText;
+      fiveBtn.textContent = tenText;
+    }
+
+    tenBtn.addEventListener('click', () => {
+      if (tenBtn.disabled) return; // If disabled, do nothing
+      box2.classList.add('hidden');
+      box3.classList.remove('hidden'); // Go to third question
+    });
+
+    fiveBtn.addEventListener('click', disableAndSwap);
+
+    // Monkey button opens jump scare in new tab and enables 10/10
     monkeyBtn.addEventListener('click', () => {
-      jumpScareIframe.style.display = 'block';
+      window.open('https://streamable.com/e/7tntgq?loop=0', '_blank');
+      tenBtn.disabled = false;
     });
   </script>
 </body>
