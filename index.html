@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Princess</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('https://img.freepik.com/free-vector/cute-giraffe-seamless-pattern_107097-18.jpg') repeat;
+      background-size: 300px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    .question-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 2;
+      position: relative;
+      max-width: 500px;
+    }
+
+    h1, h2 {
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      position: relative;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .yes {
+      background: #ff99c8;
+      color: white;
+      z-index: 3;
+    }
+
+    .yes:hover {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .no {
+      background: #a0c4ff;
+      color: white;
+      position: fixed;
+      z-index: 3;
+    }
+
+    .sticker {
+      position: absolute;
+      width: 100px;
+      opacity: 0.85;
+      pointer-events: none;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Fullscreen overlay for jump scare iframe */
+    #jumpScareIframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- First question -->
+  <div class="question-box" id="box1">
+    <h1>Hiii my princess, how are you? 🦒💛</h1>
+    <div class="buttons">
+      <button class="yes">I’m Good 💖</button>
+      <button class="no">I feel sad 😢</button>
+    </div>
+  </div>
+
+  <!-- Second question -->
+  <div class="question-box hidden" id="box2">
+    <h2>How much do you love me? 💕</h2>
+    <div class="buttons">
+      <button class="answer">10/10 🌟</button>
+      <button class="answer">5/10 🤔</button>
+      <button class="answer monkey">Ahmed is a monkey 🐒</button>
+    </div>
+  </div>
+
+  <!-- Jump scare iframe -->
+  <div id="jumpScareIframe">
+    <iframe allow="fullscreen;autoplay" allowfullscreen 
+      src="https://streamable.com/e/7tntgq?autoplay=1&nocontrols=1" 
+      style="border:none; width:100%; height:100%; position:absolute; left:0; top:0; overflow:hidden;">
+    </iframe>
+  </div>
+
+  <!-- Giraffe stickers -->
+  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:10%; left:5%;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:70%; left:20%;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:40%; left:80%;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:85%; left:60%;">
+
+  <script>
+    const noBtn = document.querySelector('.no');
+    const yesBtn = document.querySelector('.yes');
+    const box1 = document.getElementById('box1');
+    const box2 = document.getElementById('box2');
+    const monkeyBtn = document.querySelector('.monkey');
+    const jumpScareIframe = document.getElementById('jumpScareIframe');
+
+    // No button moves only on click
+    noBtn.addEventListener('click', () => {
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+      const maxX = window.innerWidth - btnWidth - 20;
+      const maxY = window.innerHeight - btnHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+
+    // Show second question after clicking Yes
+    yesBtn.addEventListener('click', () => {
+      box1.classList.add('hidden');
+      box2.classList.remove('hidden');
+    });
+
+    // Show jump scare iframe fullscreen
+    monkeyBtn.addEventListener('click', () => {
+      jumpScareIframe.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
