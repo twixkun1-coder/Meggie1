@@ -1,187 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Princess</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: url('https://img.freepik.com/free-vector/cute-giraffe-seamless-pattern_107097-18.jpg') repeat;
-      background-size: 300px;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Princess Game</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('https://img.freepik.com/free-vector/cute-giraffe-seamless-pattern_107097-18.jpg') repeat;
+    background-size: 300px;
+    overflow: hidden;
+  }
 
-    .question-box {
-      background: white;
-      padding: 2rem;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      z-index: 2;
-      position: relative;
-      max-width: 500px;
-    }
+  .question-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    transition: all 0.5s ease;
+  }
 
-    h1, h2 {
-      color: #444;
-      margin-bottom: 20px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    button {
-      flex: 1;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .yes {
-      background: #ff99c8;
-      color: white;
-    }
-
-    .no {
-      background: #a0c4ff;
-      color: white;
-      position: fixed;
-      z-index: 3;
-    }
-
-    .sticker {
-      position: absolute;
-      width: 100px;
-      opacity: 0.85;
-      pointer-events: none;
-      animation: float 6s infinite ease-in-out;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-30px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 600px) {
-      .question-box {
-        max-width: 90%;
-        padding: 1.5rem;
-      }
-      button {
-        font-size: 20px;
-        padding: 12px;
-      }
-      .sticker {
-        width: 60px;
-      }
-    }
-  </style>
+  h1, h2 { color: #444; margin-bottom: 20px; }
+  .buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+  button {
+    flex: 1;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+  }
+  .yes { background: #ff99c8; color: white; }
+  .no { background: #a0c4ff; color: white; position: absolute; z-index: 3; }
+  .hidden { display: none; }
+  .hearts { position: absolute; top: 10px; right: 10px; font-size: 30px; display: flex; gap: 5px; }
+  .heart.lost { animation: pop 0.5s forwards; }
+  @keyframes pop { 0% { transform: scale(1); opacity:1; } 50% { transform: scale(1.5); opacity:0.5; } 100% { transform: scale(0); opacity:0; } }
+  @keyframes bounce { 0% { transform: scale(1); } 25% { transform: scale(1.2); } 50% { transform: scale(0.9); } 75% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  .bounce { animation: bounce 1s ease-in-out infinite; }
+  @media(max-width:600px){ button { font-size: 16px; padding: 10px; } }
+</style>
 </head>
 <body>
 
-  <!-- First question -->
-  <div class="question-box" id="box1">
-    <h1>Hiii my princess, how are you? 🦒💛</h1>
-    <div class="buttons">
-      <button class="yes">I’m Good 💖</button>
-      <button class="no">I feel sad 😢</button>
-    </div>
+<!-- First Question -->
+<div class="question-box" id="box1">
+  <h1>hi my little princess how are you?</h1>
+  <div class="buttons">
+    <button id="sadBtn" class="no">I’m sad 😔</button>
   </div>
+</div>
 
-  <!-- Second question -->
-  <div class="question-box hidden" id="box2">
-    <h2>How much do you love me? 💕</h2>
-    <div class="buttons">
-      <button class="answer" id="ten">10/10 🌟</button>
-      <button class="answer" id="five">5/10 🤔</button>
-      <button class="answer monkey" id="monkey">Marghie is a monkey 🐒</button>
-    </div>
+<!-- Second Question -->
+<div class="question-box hidden" id="box2">
+  <h2>Let's play a game! Are you ready? If you win, you will win the gift 🎁</h2>
+  <div class="buttons">
+    <button class="answer">Yes I want to play</button>
+    <button class="answer">Sì voglio giocare</button>
+    <button class="answer">Да, я хочу играть</button>
   </div>
+</div>
 
-  <!-- Third question -->
-  <div class="question-box hidden" id="box3">
-    <h2>Now let's play a game!! 🎮</h2>
-    <div class="buttons">
-      <button class="answer">Yes I want</button>
-      <button class="answer">Sì voglio</button>
-    </div>
+<!-- Third Question Series -->
+<div class="question-box hidden" id="box3">
+  <div class="hearts" id="hearts">
+    <span>❤️</span><span>❤️</span><span>❤️</span>
   </div>
+  <h2 id="thirdQText"></h2>
+  <div class="buttons" id="thirdButtons"></div>
+</div>
 
-  <!-- Giraffe stickers -->
-  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:10%; left:5%;">
-  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:70%; left:20%;">
-  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:40%; left:80%;">
-  <img src="https://cdn-icons-png.flaticon.com/512/1998/1998611.png" class="sticker" style="top:85%; left:60%;">
+<script>
+let sadBtn = document.getElementById('sadBtn');
+let box1 = document.getElementById('box1');
+let box2 = document.getElementById('box2');
+let box3 = document.getElementById('box3');
 
-  <script>
-    const noBtn = document.querySelector('.no');
-    const yesBtn = document.querySelector('.yes');
-    const box1 = document.getElementById('box1');
-    const box2 = document.getElementById('box2');
-    const box3 = document.getElementById('box3');
+let sadClicks = 0;
 
-    const tenBtn = document.getElementById('ten');
-    const fiveBtn = document.getElementById('five');
-    const monkeyBtn = document.getElementById('monkey');
+// Move "I'm sad" button randomly
+sadBtn.addEventListener('click', () => {
+  sadClicks++;
+  const btnWidth = sadBtn.offsetWidth;
+  const btnHeight = sadBtn.offsetHeight;
+  const maxX = box1.offsetWidth - btnWidth - 20;
+  const maxY = box1.offsetHeight - btnHeight - 20;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  sadBtn.style.transform = `translate(${x}px, ${y}px)`;
+  
+  if(sadClicks >= 5){
+    showGoodButton();
+  }
+});
 
-    // No button moves only on click
-    noBtn.addEventListener('click', () => {
-      const btnWidth = noBtn.offsetWidth;
-      const btnHeight = noBtn.offsetHeight;
-      const maxX = window.innerWidth - btnWidth - 20;
-      const maxY = window.innerHeight - btnHeight - 20;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
+// Show new button after 5 clicks with bounce
+function showGoodButton(){
+  if(document.getElementById('goodBtn')) return;
+  let goodBtn = document.createElement('button');
+  goodBtn.id = "goodBtn";
+  goodBtn.textContent = "I feel good thank you!!!";
+  goodBtn.classList.add('yes','bounce');
+  goodBtn.addEventListener('click', () => {
+    box1.classList.add('hidden');
+    box2.classList.remove('hidden');
+  });
+  box1.querySelector('.buttons').appendChild(goodBtn);
+}
+
+// Second question buttons
+document.querySelectorAll('#box2 .answer').forEach(btn => {
+  btn.addEventListener('click', () => {
+    box2.classList.add('hidden');
+    startThirdSeries();
+  });
+});
+
+// Third question series
+const questions = [
+  {
+    text: "How much do you love me? Choose carefully ❤️",
+    answers: ["10/10","3.5/10","69/10 😏😏😏😏😏","1/10"],
+    correct: 2
+  },
+  {
+    text: "What's 7 × 6?",
+    answers: ["40","48","44","42"],
+    correct: 3
+  },
+  {
+    text: "Who is the monkey?",
+    answers: ["Ahmed","Margherita","A is correct"],
+    correct: 1
+  },
+  {
+    text: "What's Ahmed's favorite color?",
+    answers: ["Black","White","Purple","Orange 🤦‍♂️"],
+    correct: 0
+  }
+];
+
+let currentQ = 0;
+let hearts = document.getElementById('hearts');
+
+function startThirdSeries(){
+  box3.classList.remove('hidden');
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const q = questions[currentQ];
+  document.getElementById('thirdQText').textContent = q.text;
+  const btnContainer = document.getElementById('thirdButtons');
+  btnContainer.innerHTML = '';
+  q.answers.forEach((ans,i)=>{
+    let b = document.createElement('button');
+    b.textContent = ans;
+    b.addEventListener('click',()=>{
+      if(i===q.correct){
+        currentQ++;
+        if(currentQ<questions.length){
+          loadQuestion();
+        } else {
+          alert("🎉 You finished the game! Congrats! 🎉");
+        }
+      } else {
+        loseHeart();
+      }
     });
+    btnContainer.appendChild(b);
+  });
+}
 
-    // Show second question
-    yesBtn.addEventListener('click', () => {
-      box1.classList.add('hidden');
-      box2.classList.remove('hidden');
-    });
-
-    // 5/10 or 10/10 swap and disable
-    function disableAndSwap() {
-      [tenBtn, fiveBtn].forEach(btn => btn.disabled = true);
-      const tenText = tenBtn.textContent;
-      const fiveText = fiveBtn.textContent;
-      tenBtn.textContent = fiveText;
-      fiveBtn.textContent = tenText;
+function loseHeart(){
+  const heartSpans = hearts.querySelectorAll('span');
+  for(let i = heartSpans.length-1; i>=0; i--){
+    if(!heartSpans[i].classList.contains('lost')){
+      heartSpans[i].classList.add('lost');
+      return;
     }
-
-    tenBtn.addEventListener('click', () => {
-      if (tenBtn.disabled) return; // If disabled, do nothing
-      box2.classList.add('hidden');
-      box3.classList.remove('hidden'); // Go to third question
-    });
-
-    fiveBtn.addEventListener('click', disableAndSwap);
-
-    // Monkey button opens jump scare in new tab and enables 10/10
-    monkeyBtn.addEventListener('click', () => {
-      window.open('https://streamable.com/e/7tntgq?loop=0', '_blank');
-      tenBtn.disabled = false;
-    });
-  </script>
+  }
+}
+</script>
 </body>
 </html>
